@@ -11,9 +11,9 @@ public class Transfer {
     @NotNull
     private int transferStatusId;
     @NotNull
-    private Account accountFrom;
+    private int accountFrom;
     @NotNull
-    private Account accountTo;
+    private int accountTo;
     @NotNull
     private BigDecimal amount;
 
@@ -41,19 +41,19 @@ public class Transfer {
         this.transferStatusId = transferStatusId;
     }
 
-    public Account getAccountFrom() {
+    public int getAccountFrom() {
         return accountFrom;
     }
 
-    public void setAccountFrom(Account accountFrom) {
+    public void setAccountFrom(int accountFrom) {
         this.accountFrom = accountFrom;
     }
 
-    public Account getAccountTo() {
+    public int getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(Account accountTo) {
+    public void setAccountTo(int accountTo) {
         this.accountTo = accountTo;
     }
 
