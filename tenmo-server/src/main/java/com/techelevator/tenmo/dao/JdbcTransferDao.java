@@ -43,12 +43,12 @@ public class JdbcTransferDao implements TransferDao{
 
     @Override
     public Transfer createTransfer(Transfer transfer) {
-        String sql = "Insert Into transfer(transfer_id, transfer_type_id, " +
+        String sql = "Insert Into transfer(transfer_type_id, " +
                 "transfer_status_id, account_from, " +
                 "account_to, amount) " +
-                "Values (?,?,?,?,?,?);";
+                "Values (?,?,?,?,?);";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql,
-                transfer.getId(), transfer.getTransferTypeId(),
+                transfer.getTransferTypeId(),
                 transfer.getTransferStatusId(), transfer.getAccountFrom(),
                 transfer.getAccountTo(),transfer.getAmount());
         if(result.next()){
