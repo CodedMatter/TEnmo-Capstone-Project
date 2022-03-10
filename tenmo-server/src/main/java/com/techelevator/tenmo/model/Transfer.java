@@ -1,20 +1,22 @@
 package com.techelevator.tenmo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class Transfer {
 
     private int id;
-    @NotNull
+    @JsonProperty("transfer_type_id")
     private int transferTypeId;
-    @NotNull
+    @JsonProperty("transfer_status_id")
     private int transferStatusId;
-    @NotNull
+    @JsonProperty("account_from")
     private int accountFrom;
-    @NotNull
+    @JsonProperty("account_to")
     private int accountTo;
-    @NotNull
+    //@NotNull
     private BigDecimal amount;
 
     public int getId() {

@@ -20,6 +20,18 @@ public class JdbcTransferDao implements TransferDao{
 
 
     @Override
+    public List<Transfer> getAllTransfers() {
+        List<Transfer> transferList = new ArrayList<>();
+        String sql = "Select * From transfer;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()){
+            Transfer transfer = mapRowToTransfer(results);
+            transferList.add(transfer);
+        }
+        return transferList;
+    }
+
+    @Override
     public List<Transfer> getAllTransferByAccountId(int id) {
         List<Transfer> transferList = new ArrayList<>();
         String sql = "Select * From transfer Where account_from = ?";
@@ -43,18 +55,15 @@ public class JdbcTransferDao implements TransferDao{
 
     @Override
     public Transfer createTransfer(Transfer transfer) {
-        String sql = "Insert Into transfer(transfer_type_id, " +
+        String sql = "Insert Into transfer (transfer_type_id, " +
                 "transfer_status_id, account_from, " +
                 "account_to, amount) " +
-                "Values (?,?,?,?,?);";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql,
+                "Values (?,?,?,?,?) Returning transfer_id;";
+        Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,
                 transfer.getTransferTypeId(),
                 transfer.getTransferStatusId(), transfer.getAccountFrom(),
                 transfer.getAccountTo(),transfer.getAmount());
-        if(result.next()){
-            return mapRowToTransfer(result);
-        }
-        return null;
+        return getTransferById(newId);
     }
 
     @Override

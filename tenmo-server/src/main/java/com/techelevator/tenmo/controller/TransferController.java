@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.table.TableRowSorter;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -16,6 +17,11 @@ public class TransferController {
 
     @Autowired
     private TransferDao transferDao;
+
+    @RequestMapping(path = "",method = RequestMethod.GET)
+    public List<Transfer> getAllTransfers(){
+        return transferDao.getAllTransfers();
+    }
 
     @RequestMapping(path = "/account/{id}", method = RequestMethod.GET)
     public List<Transfer> getAllTransferByAccountId(@NotNull @PathVariable int id){
