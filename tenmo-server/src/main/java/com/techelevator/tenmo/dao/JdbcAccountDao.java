@@ -15,8 +15,18 @@ public class JdbcAccountDao implements AccountDao{
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    public Account getAccountById(int id) {
+        String sql = "Select * From account Where account_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql,id);
+        if (result.next()){
+            return mapRowToAccount(result);
+        }
+        return null;
+    }
+
+    @Override
     public Account getAccountByUserId(int id) {
-        String sql = "Select * From account Where user_id = ?";
+        String sql = "Select * From account Where user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql,id);
         if(result.next()){
             return mapRowToAccount(result);
@@ -26,8 +36,8 @@ public class JdbcAccountDao implements AccountDao{
 
     @Override
     public Account createAccount(Account account) {
-        String sql = "Insert Into account(user_id, balance) " +
-                "Values (?,?);";
+        String sql = "Insert Into account (user_id, balance) " +
+                "Values (?,?) Returning account_id";
         Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,
                 account.getUserId(), account.getBalance());
         return getAccountByUserId(newId);

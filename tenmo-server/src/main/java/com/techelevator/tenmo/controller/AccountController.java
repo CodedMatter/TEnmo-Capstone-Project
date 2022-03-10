@@ -19,7 +19,12 @@ public class AccountController {
     @Autowired
     private AccountDao accountDao;
 
-    @RequestMapping(path="/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    public Account getAccountById(@NotNull @PathVariable int id){
+        return accountDao.getAccountById(id);
+    }
+
+    @RequestMapping(path="/user/{id}", method = RequestMethod.GET)
     public Account getAccountByUserId(@NotNull @PathVariable int id) {
         return accountDao.getAccountByUserId(id);
     }
