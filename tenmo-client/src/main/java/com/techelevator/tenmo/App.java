@@ -1,18 +1,20 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.UserCredentials;
-import com.techelevator.tenmo.services.AuthenticationService;
-import com.techelevator.tenmo.services.ConsoleService;
-import com.techelevator.tenmo.services.TransferService;
+import com.techelevator.tenmo.model.*;
+import com.techelevator.tenmo.services.*;
+import io.cucumber.java.bs.A;
+
+import java.math.BigDecimal;
+import java.security.Principal;
 
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
 
     private final TransferService transferService = new TransferService();
+    private final AccountService accountService = new AccountService();
     private final ConsoleService consoleService = new ConsoleService();
+    private final UserService userService = new UserService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
     private AuthenticatedUser currentUser;
@@ -64,6 +66,8 @@ public class App {
         }
         if (token != null) {
             transferService.setAuthToken(token);
+            accountService.setAuthToken(token);
+            userService.setAuthToken(token);
         }
     }
 
@@ -93,6 +97,9 @@ public class App {
 
 	private void viewCurrentBalance() {
 
+        BigDecimal balance = accountService.getBalance(currentUser.getUser().getId());
+        System.out.println("Your current account balance is: " + balance);
+
 	}
 
 	private void viewTransferHistory() {
@@ -109,7 +116,33 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
+        System.out.println("-------------------------------------------");
+        System.out.println("Users");
+        System.out.println("ID          Name");
+        System.out.println("-------------------------------------------");
+
+        // print all id and user names
+        User[] allUsers = userService.getAllUsers();
+        for(User user: allUsers){
+            System.out.println(user.getId() + "      " + user.getUsername());
+        }
+
+        System.out.println("---------");
+
+        int receiverId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
+
+        if(receiverId == 0){
+            return;
+        }
+
+        BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
+
+        accountService.sendTeBucks(
+                accountService.getAccountByUserId(currentUser.getUser().getId()).getId(),
+                accountService.getAccountByUserId(receiverId).getId(),amount);
+
+        Transfer transfer = new Transfer(2,1,currentUser.getUser().getId(),receiverId, amount);
+        transferService.createTransfer(transfer);
 		
 	}
 
