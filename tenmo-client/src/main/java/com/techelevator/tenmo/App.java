@@ -141,9 +141,6 @@ public class App {
                 accountService.getAccountByUserId(currentUser.getUser().getId()).getId(),
                 accountService.getAccountByUserId(receiverId).getId(),
                 amount);
-
-        Transfer transfer = new Transfer(2,1,currentUser.getUser().getId(),receiverId, amount);
-        transferService.createTransfer(transfer);
 		
 	}
 

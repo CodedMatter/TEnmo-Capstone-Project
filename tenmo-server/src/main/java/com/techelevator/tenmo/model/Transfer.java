@@ -13,9 +13,9 @@ public class Transfer {
     @JsonProperty("transfer_status_id")
     private int transferStatusId;
     @JsonProperty("account_from")
-    private int accountFrom;
+    private Long accountFrom;
     @JsonProperty("account_to")
-    private int accountTo;
+    private Long accountTo;
     //@NotNull
     private BigDecimal amount;
 
@@ -43,19 +43,19 @@ public class Transfer {
         this.transferStatusId = transferStatusId;
     }
 
-    public int getAccountFrom() {
+    public Long getAccountFrom() {
         return accountFrom;
     }
 
-    public void setAccountFrom(int accountFrom) {
+    public void setAccountFrom(Long accountFrom) {
         this.accountFrom = accountFrom;
     }
 
-    public int getAccountTo() {
+    public Long getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(int accountTo) {
+    public void setAccountTo(Long accountTo) {
         this.accountTo = accountTo;
     }
 

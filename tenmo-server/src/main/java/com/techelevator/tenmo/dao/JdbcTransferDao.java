@@ -67,6 +67,8 @@ public class JdbcTransferDao implements TransferDao{
         return getTransferById(newId);
     }
 
+
+
     @Override
     public void deleteTransfer(int id) {
         String sql = "Delete From transfer Where transfer_id = ?;";
@@ -78,8 +80,8 @@ public class JdbcTransferDao implements TransferDao{
         transfer.setId(results.getInt("transfer_id"));
         transfer.setTransferTypeId(results.getInt("transfer_type_id"));
         transfer.setTransferStatusId(results.getInt("transfer_status_id"));
-        transfer.setAccountFrom(results.getInt("account_from"));
-        transfer.setAccountTo(results.getInt("account_to"));
+        transfer.setAccountFrom(results.getLong("account_from"));
+        transfer.setAccountTo(results.getLong("account_to"));
         transfer.setAmount(results.getBigDecimal("amount"));
         return transfer;
     }

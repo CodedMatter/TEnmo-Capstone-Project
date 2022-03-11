@@ -34,13 +34,17 @@ public class TransferService {
         Transfer transferCreated = null;
         try {
             ResponseEntity<Transfer> response =
-                    restTemplate.exchange(API_BASE_URL, HttpMethod.POST, makeAuthEntity(), Transfer.class);
+                    restTemplate.exchange(API_BASE_URL, HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
             transferCreated = response.getBody();
         }
         catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
         return transferCreated;
+//        Transfer returnedTransfer = null;
+//        returnedTransfer = restTemplate.postForObject(API_BASE_URL,
+//                makeTransferEntity(transfer),Transfer.class);
+//        return returnedTransfer;
     }
 
 

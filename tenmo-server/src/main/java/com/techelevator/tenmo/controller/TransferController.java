@@ -33,12 +33,6 @@ public class TransferController {
         return transferDao.getTransferById(id);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    public Transfer createTransfer(@Valid @RequestBody Transfer transfer){
-        return transferDao.createTransfer(transfer);
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void deleteTransfer(@NotNull @PathVariable int id){
