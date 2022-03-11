@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class Transfer {
 
-    private int id;
+    private Long id;
     @JsonProperty("transfer_type_id")
     private int transferTypeId;
     @JsonProperty("transfer_status_id")
@@ -14,11 +14,11 @@ public class Transfer {
     @JsonProperty("account_from")
     private Long accountFrom;
     @JsonProperty("account_to")
-    private int accountTo;
+    private Long accountTo;
 
     private BigDecimal amount;
 
-    public Transfer(int transferTypeId, int transferStatusId, long accountFrom, int accountTo, BigDecimal amount){
+    public Transfer(int transferTypeId, int transferStatusId, Long accountFrom, Long accountTo, BigDecimal amount){
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
         this.accountFrom = accountFrom;
@@ -29,11 +29,11 @@ public class Transfer {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,7 +53,7 @@ public class Transfer {
         this.transferStatusId = transferStatusId;
     }
 
-    public long getAccountFrom() {
+    public Long getAccountFrom() {
         return accountFrom;
     }
 
@@ -61,11 +61,11 @@ public class Transfer {
         this.accountFrom = accountFrom;
     }
 
-    public int getAccountTo() {
+    public Long getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(int accountTo) {
+    public void setAccountTo(Long accountTo) {
         this.accountTo = accountTo;
     }
 

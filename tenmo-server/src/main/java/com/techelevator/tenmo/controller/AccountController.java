@@ -20,12 +20,12 @@ public class AccountController {
     private AccountDao accountDao;
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public Account getAccountById(@NotNull @PathVariable int id){
+    public Account getAccountById(@NotNull @PathVariable Long id){
         return accountDao.getAccountById(id);
     }
 
     @RequestMapping(path="/user/{id}", method = RequestMethod.GET)
-    public Account getAccountByUserId(@NotNull @PathVariable int id) {
+    public Account getAccountByUserId(@NotNull @PathVariable Long id) {
         return accountDao.getAccountByUserId(id);
     }
 
@@ -37,22 +37,22 @@ public class AccountController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void deleteAccount(@NotNull @PathVariable int id) {
+    public void deleteAccount(@NotNull @PathVariable Long id) {
         accountDao.deleteAccount(id);
     }
 
     @RequestMapping(path = "/user/{id}/balance", method = RequestMethod.GET)
-    public BigDecimal getBalanceByUserId(@NotNull @PathVariable int id) {
+    public BigDecimal getBalanceByUserId(@NotNull @PathVariable Long id) {
        return accountDao.getBalanceByUserId(id);
     }
 
     @RequestMapping(path = "/{id}/balance", method = RequestMethod.GET)
-    public BigDecimal getBalanceByAccountId(@NotNull @PathVariable int id) {
+    public BigDecimal getBalanceByAccountId(@NotNull @PathVariable Long id) {
         return accountDao.getBalanceByAccountId(id);
     }
 
-    @RequestMapping(path = "/send/{sender}/{receiver}/{amount}", method = RequestMethod.PUT)
-    public void sendTeBucks (@PathVariable int sender, @PathVariable int receiver, @PathVariable BigDecimal amount) {
+    @RequestMapping(path = "/send/{sender}/{receiver}/{amount}", method = RequestMethod.POST)
+    public void sendTeBucks (@PathVariable Long sender, @PathVariable Long receiver, @PathVariable BigDecimal amount) {
          accountDao.sendTeBucks(sender,receiver,amount);
     }
 

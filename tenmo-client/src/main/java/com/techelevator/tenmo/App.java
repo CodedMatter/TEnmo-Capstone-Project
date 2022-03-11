@@ -50,6 +50,7 @@ public class App {
     private void handleRegister() {
         System.out.println("Please register a new user account");
         UserCredentials credentials = consoleService.promptForCredentials();
+
         if (authenticationService.register(credentials)) {
             System.out.println("Registration successful. You can now login.");
         } else {
@@ -60,14 +61,13 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
-        String token = authenticationService.login(credentials).toString();
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
-        if (token != null) {
-            transferService.setAuthToken(token);
-            accountService.setAuthToken(token);
-            userService.setAuthToken(token);
+        if (currentUser.getToken() != null) {
+            transferService.setAuthToken(currentUser.getToken());
+            accountService.setAuthToken(currentUser.getToken());
+            userService.setAuthToken(currentUser.getToken());
         }
     }
 
@@ -129,7 +129,7 @@ public class App {
 
         System.out.println("---------");
 
-        int receiverId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
+        long receiverId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
 
         if(receiverId == 0){
             return;
@@ -139,7 +139,8 @@ public class App {
 
         accountService.sendTeBucks(
                 accountService.getAccountByUserId(currentUser.getUser().getId()).getId(),
-                accountService.getAccountByUserId(receiverId).getId(),amount);
+                accountService.getAccountByUserId(receiverId).getId(),
+                amount);
 
         Transfer transfer = new Transfer(2,1,currentUser.getUser().getId(),receiverId, amount);
         transferService.createTransfer(transfer);

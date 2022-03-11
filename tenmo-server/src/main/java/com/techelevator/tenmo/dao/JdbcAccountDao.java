@@ -17,7 +17,7 @@ public class JdbcAccountDao implements AccountDao{
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Account getAccountById(int id) {
+    public Account getAccountById(Long id) {
         String sql = "Select * From account Where account_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql,id);
         if (result.next()){
@@ -27,7 +27,7 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public Account getAccountByUserId(int id) {
+    public Account getAccountByUserId(Long id) {
         String sql = "Select * From account Where user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql,id);
         if(result.next()){
@@ -40,25 +40,25 @@ public class JdbcAccountDao implements AccountDao{
     public Account createAccount(Account account) {
         String sql = "Insert Into account (user_id, balance) " +
                 "Values (?,?) Returning account_id";
-        Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,
+        Long newId = jdbcTemplate.queryForObject(sql, Long.class,
                 account.getUserId(), account.getBalance());
         return getAccountByUserId(newId);
     }
 
     @Override
-    public void deleteAccount(int id) {
+    public void deleteAccount(Long id) {
         String sql = "Delete from account where account_id = ?;";
         jdbcTemplate.update(sql, id);
 
     }
 
     @Override
-    public BigDecimal getBalanceByUserId(int id) {
+    public BigDecimal getBalanceByUserId(Long id) {
         return getAccountByUserId(id).getBalance();
     }
 
     @Override
-    public Account addToAccount(int id, BigDecimal amount) {
+    public Account addToAccount(Long id, BigDecimal amount) {
         String sql = "Update account set balance = ? where account_id = ?;";
 
         BigDecimal newB = getBalanceByAccountId(id).add(amount);
@@ -68,7 +68,7 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public Account subtractFromAccount(int id, BigDecimal amount) {
+    public Account subtractFromAccount(Long id, BigDecimal amount) {
         String sql = "Update account set balance = ? where account_id = ?;";
 
         BigDecimal newB = getBalanceByAccountId(id).subtract(amount);
@@ -78,19 +78,19 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public void sendTeBucks(int sender, int receiver, BigDecimal amount) {
+    public void sendTeBucks(Long sender, Long receiver, BigDecimal amount) {
         subtractFromAccount(sender, amount);
         addToAccount(receiver, amount);
     }
 
     @Override
-    public void receiveTeBucks(int receiver, int sender, BigDecimal amount) {
+    public void receiveTeBucks(Long receiver, Long sender, BigDecimal amount) {
         subtractFromAccount(sender, amount);
         addToAccount(receiver, amount);
     }
 
     @Override
-    public BigDecimal getBalanceByAccountId(int id) {
+    public BigDecimal getBalanceByAccountId(Long id) {
         return getAccountById(id).getBalance();
     }
 

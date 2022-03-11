@@ -18,7 +18,7 @@ public class AccountService {
 
     public void setAuthToken(String authToken) {this.authToken = authToken;}
 
-    public BigDecimal getBalance(long userId){
+    public BigDecimal getBalance(Long userId){
         BigDecimal balance = null;
         try{
             ResponseEntity<BigDecimal> response = restTemplate.exchange(
@@ -33,7 +33,7 @@ public class AccountService {
         return balance;
     }
 
-    public Account getAccountByUserId(long userId){
+    public Account getAccountByUserId(Long userId){
 
         Account account = null;
         try{
@@ -50,7 +50,7 @@ public class AccountService {
 
     }
 
-    public void sendTeBucks(long senderId, long receiverId, BigDecimal amount){
+    public void sendTeBucks(Long senderId, Long receiverId, BigDecimal amount){
         try{
             ResponseEntity<Void> response = restTemplate.exchange(
                     API_BASE_URL + "send/" + senderId + "/" + receiverId + "/" + amount ,

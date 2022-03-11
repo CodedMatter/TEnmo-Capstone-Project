@@ -6,25 +6,25 @@ import java.math.BigDecimal;
 
 public interface AccountDao {
 
-    Account getAccountById(int id);
+    Account getAccountById(Long id);
 
-    Account getAccountByUserId(int id);
+    Account getAccountByUserId(Long id);
 
     Account createAccount (Account account);
 
-    void deleteAccount (int id);
+    void deleteAccount (Long id);
 
-    BigDecimal getBalanceByUserId (int id);
+    BigDecimal getBalanceByUserId (Long id);
 
-    BigDecimal getBalanceByAccountId (int id);
+    BigDecimal getBalanceByAccountId (Long id);
 
-    Account addToAccount (int id, BigDecimal amount);
+    Account addToAccount (Long id, BigDecimal amount);
 
-    Account subtractFromAccount (int id, BigDecimal amount);
+    Account subtractFromAccount (Long id, BigDecimal amount);
 
-    void sendTeBucks (int sender, int receiver, BigDecimal amount);
+    void sendTeBucks (Long sender, Long receiver, BigDecimal amount);
 
-    void receiveTeBucks (int receiver, int sender, BigDecimal amount);
+    void receiveTeBucks (Long receiver, Long sender, BigDecimal amount);
 
 
 }
