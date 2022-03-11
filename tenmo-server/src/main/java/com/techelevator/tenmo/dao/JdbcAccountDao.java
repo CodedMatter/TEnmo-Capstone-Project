@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
+import org.apache.tomcat.jni.BIOCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -53,7 +55,43 @@ public class JdbcAccountDao implements AccountDao{
     @Override
     public BigDecimal getBalanceByUserId(int id) {
         return getAccountByUserId(id).getBalance();
+    }
 
+    @Override
+    public Account addToAccount(int id, BigDecimal amount) {
+        String sql = "Update account set balance = ? where account_id = ?;";
+
+        BigDecimal newB = getBalanceByAccountId(id).add(amount);
+
+        jdbcTemplate.update(sql, newB, id);
+        return getAccountById(id);
+    }
+
+    @Override
+    public Account subtractFromAccount(int id, BigDecimal amount) {
+        String sql = "Update account set balance = ? where account_id = ?;";
+
+        BigDecimal newB = getBalanceByAccountId(id).subtract(amount);
+
+        jdbcTemplate.update(sql, newB, id);
+        return getAccountById(id);
+    }
+
+    @Override
+    public void sendTeBucks(int sender, int receiver, BigDecimal amount) {
+        subtractFromAccount(sender, amount);
+        addToAccount(receiver, amount);
+    }
+
+    @Override
+    public void receiveTeBucks(int receiver, int sender, BigDecimal amount) {
+        subtractFromAccount(sender, amount);
+        addToAccount(receiver, amount);
+    }
+
+    @Override
+    public BigDecimal getBalanceByAccountId(int id) {
+        return getAccountById(id).getBalance();
     }
 
     public Account mapRowToAccount(SqlRowSet results){

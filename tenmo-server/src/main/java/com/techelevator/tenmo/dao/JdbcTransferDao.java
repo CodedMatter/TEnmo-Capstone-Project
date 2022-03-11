@@ -59,6 +59,7 @@ public class JdbcTransferDao implements TransferDao{
                 "transfer_status_id, account_from, " +
                 "account_to, amount) " +
                 "Values (?,?,?,?,?) Returning transfer_id;";
+
         Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,
                 transfer.getTransferTypeId(),
                 transfer.getTransferStatusId(), transfer.getAccountFrom(),

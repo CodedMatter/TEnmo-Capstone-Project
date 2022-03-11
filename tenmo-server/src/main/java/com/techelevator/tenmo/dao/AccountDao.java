@@ -16,4 +16,15 @@ public interface AccountDao {
 
     BigDecimal getBalanceByUserId (int id);
 
+    BigDecimal getBalanceByAccountId (int id);
+
+    Account addToAccount (int id, BigDecimal amount);
+
+    Account subtractFromAccount (int id, BigDecimal amount);
+
+    void sendTeBucks (int sender, int receiver, BigDecimal amount);
+
+    void receiveTeBucks (int receiver, int sender, BigDecimal amount);
+
+
 }

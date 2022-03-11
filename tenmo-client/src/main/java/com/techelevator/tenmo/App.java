@@ -1,14 +1,17 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
 
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
 
+    private final TransferService transferService = new TransferService();
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
@@ -55,8 +58,12 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
+        String token = authenticationService.login(credentials).toString();
         if (currentUser == null) {
             consoleService.printErrorMessage();
+        }
+        if (token != null) {
+            transferService.setAuthToken(token);
         }
     }
 
@@ -85,12 +92,14 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
+        Transfer[] transfers = transferService.getAllTransfers();
+        for (Transfer transfer : transfers) {
+            System.out.println(transfer);
+        }
 		
 	}
 

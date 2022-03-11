@@ -41,10 +41,19 @@ public class AccountController {
         accountDao.deleteAccount(id);
     }
 
-    @RequestMapping(path = "/{id}/balance", method = RequestMethod.GET)
+    @RequestMapping(path = "/user/{id}/balance", method = RequestMethod.GET)
     public BigDecimal getBalanceByUserId(@NotNull @PathVariable int id) {
        return accountDao.getBalanceByUserId(id);
     }
 
+    @RequestMapping(path = "/{id}/balance", method = RequestMethod.GET)
+    public BigDecimal getBalanceByAccountId(@NotNull @PathVariable int id) {
+        return accountDao.getBalanceByAccountId(id);
+    }
+
+    @RequestMapping(path = "/send/{sender}/{receiver}/{amount}", method = RequestMethod.PUT)
+    public void sendTeBucks (@PathVariable int sender, @PathVariable int receiver, @PathVariable BigDecimal amount) {
+         accountDao.sendTeBucks(sender,receiver,amount);
+    }
 
 }
