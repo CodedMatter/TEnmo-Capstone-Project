@@ -15,4 +15,6 @@ public interface TransferDao {
     Transfer createTransfer(Transfer transfer);
 
     void deleteTransfer(int id);
+
+    List<Transfer> getPendingTransfers(Long id);
 }

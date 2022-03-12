@@ -61,6 +61,17 @@ public class AccountService {
         }
     }
 
+    public void receiveTeBucks(Long receiverId, Long senderId, BigDecimal amount){
+        try{
+            ResponseEntity<Void> response = restTemplate.exchange(
+                    API_BASE_URL + "receive/" + receiverId + "/" + senderId + "/" + amount ,
+                    HttpMethod.POST, makeAuthEntity(), Void.class);
+        }
+        catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+    }
+
     private HttpEntity<Account> makeAccountEntity(Account account) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

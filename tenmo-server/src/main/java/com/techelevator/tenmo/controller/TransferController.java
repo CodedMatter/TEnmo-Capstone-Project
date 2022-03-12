@@ -4,6 +4,7 @@ import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.table.TableRowSorter;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/transfer")
 public class TransferController {
@@ -37,5 +39,10 @@ public class TransferController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void deleteTransfer(@NotNull @PathVariable int id){
         transferDao.deleteTransfer(id);
+    }
+
+    @RequestMapping(path = "/pending/{id}", method = RequestMethod.GET)
+    public List<Transfer> getPendingTransfers(@NotNull @PathVariable Long id) {
+        return transferDao.getPendingTransfers(id);
     }
 }

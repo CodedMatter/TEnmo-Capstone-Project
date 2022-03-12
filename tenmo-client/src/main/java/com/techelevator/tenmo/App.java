@@ -111,7 +111,11 @@ public class App {
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
+        Transfer[] pendingTransfers = transferService.getPendingTransfers
+                (accountService.getAccountByUserId(currentUser.getUser().getId()).getId());
+        for (Transfer transfer : pendingTransfers) {
+            System.out.println(transfer);
+        }
 		
 	}
 
@@ -137,6 +141,11 @@ public class App {
 
         BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
 
+        if(accountService.getAccountByUserId(currentUser.getUser().getId()).getBalance().compareTo(amount) < 0){
+            System.out.println("Insufficient funds");
+            return;
+        }
+
         accountService.sendTeBucks(
                 accountService.getAccountByUserId(currentUser.getUser().getId()).getId(),
                 accountService.getAccountByUserId(receiverId).getId(),
@@ -145,7 +154,31 @@ public class App {
 	}
 
 	private void requestBucks() {
-		// TODO Auto-generated method stub
+        System.out.println("-------------------------------------------");
+        System.out.println("Users");
+        System.out.println("ID          Name");
+        System.out.println("-------------------------------------------");
+
+        // print all id and user names
+        User[] allUsers = userService.getAllUsers();
+        for(User user: allUsers){
+            System.out.println(user.getId() + "      " + user.getUsername());
+        }
+
+        System.out.println("---------");
+
+        long senderId = consoleService.promptForInt("Enter ID of user you are requesting from (0 to cancel):");
+
+        if(senderId == 0){
+            return;
+        }
+
+        BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
+
+        accountService.receiveTeBucks(
+                accountService.getAccountByUserId(currentUser.getUser().getId()).getId(),
+                accountService.getAccountByUserId(senderId).getId(),
+                amount);
 		
 	}
 

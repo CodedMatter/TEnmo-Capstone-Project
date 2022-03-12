@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-//@PreAuthorize("isAuthenticated()")
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/account")
 public class AccountController {
@@ -59,14 +59,30 @@ public class AccountController {
     @Transactional
     @RequestMapping(path = "/send/{sender}/{receiver}/{amount}", method = RequestMethod.POST)
     public void sendTeBucks (@PathVariable Long sender, @PathVariable Long receiver, @PathVariable BigDecimal amount) {
-         accountDao.sendTeBucks(sender,receiver,amount);
+//        if (getBalanceByUserId(sender).compareTo(amount)<0) {
+//            return;
+//        }
+        accountDao.sendTeBucks(sender,receiver,amount);
          Transfer newTransfer = new Transfer();
          newTransfer.setAccountFrom(sender);
          newTransfer.setAccountTo(receiver);
          newTransfer.setAmount(amount);
          newTransfer.setTransferTypeId(2);
-         newTransfer.setTransferStatusId(1);
+         newTransfer.setTransferStatusId(2);
          transferDao.createTransfer(newTransfer);
+    }
+
+    @Transactional
+    @RequestMapping(path = "/receive/{receiver}/{sender}/{amount}", method = RequestMethod.POST)
+    public void receiveTeBucks (@PathVariable Long receiver, @PathVariable Long sender, @PathVariable BigDecimal amount) {
+        accountDao.receiveTeBucks(receiver,sender,amount);
+        Transfer newTransfer = new Transfer();
+        newTransfer.setAccountFrom(receiver);
+        newTransfer.setAccountTo(sender);
+        newTransfer.setAmount(amount);
+        newTransfer.setTransferTypeId(1);
+        newTransfer.setTransferStatusId(1);
+        transferDao.createTransfer(newTransfer);
     }
 
 
